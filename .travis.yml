@@ -8,6 +8,8 @@ env:
     version: "2k12r2"
   - distribution: windows
     version: "2k8r2"
+  - distribution: windows
+    version: "8.1"
 
 before_install:
   # Download and install packer from hashicorp repository
