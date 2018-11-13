@@ -1,0 +1,56 @@
+{
+  "variables": {
+		"guest_additions_mode": "attach",
+		"headless": "false",
+		"iso_checksum": "73321fa912305e5a16096ef62380a91ee1f112da",
+		"iso_url": "http://download.microsoft.com/download/B/9/9/B999286E-0A47-406D-8B3D-5B5AD7373A4A/9600.16384.WINBLUE_RTM.130821-1623_X64FRE_ENTERPRISE_EVAL_EN-US-IRM_CENA_X64FREE_EN-US_DV5.ISO",
+		"template": "windows-8.1"
+	},
+
+	"builders": [{
+		"type": "virtualbox-iso",
+    "format": "ova",
+		"vboxmanage": [
+			["modifyvm", "{{.Name}}", "--memory", "2048"],
+			["modifyvm", "{{.Name}}", "--vram", "36"],
+			["modifyvm", "{{.Name}}", "--cpus", "2"]
+		],
+		"guest_additions_mode": "{{ user `guest_additions_mode` }}",
+		"guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
+		"guest_os_type": "Windows10_64",
+		"headless": "{{ user `headless` }}",
+		"iso_url": "{{ user `iso_url` }}",
+		"iso_checksum": "{{ user `iso_checksum` }}",
+		"iso_checksum_type": "sha1",
+		"output_directory": "builds/packer-{{user `template`}}-virtualbox",
+		"communicator": "winrm",
+		"winrm_username": "vagrant",
+		"winrm_password": "vagrant",
+		"winrm_timeout": "12h",
+		"shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+		"shutdown_timeout": "15m",
+		"floppy_files": [
+			"windows-8.1/Autounattend.xml"
+		]
+	}],
+
+  "provisioners": [{
+			"type": "powershell",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant",
+			"scripts": [
+				"ansible-scripts-requirements/ConfigureRemotingForAnsible.ps1",
+				"ansible-scripts-requirements/Upgrade-PowerShell.ps1"
+			]
+		}
+	],
+
+  "post-processors": [
+		[{
+			"type": "vagrant",
+			"keep_input_artifact": true,
+			"output": "{{ user `template` }}-{{.Provider}}.box",
+			"vagrantfile_template": "vagrantfile-windows.template"
+		}]
+  ]
+}
