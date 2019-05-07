@@ -1,4 +1,3 @@
-dist: trusty
 sudo: false
 
 env:
@@ -12,9 +11,10 @@ env:
     version: "8.1"
 
 before_install:
-  # Download and install packer from hashicorp repository
- - wget https://releases.hashicorp.com/packer/1.3.2/packer_1.3.2_linux_amd64.zip
- - unzip -d ~/bin packer_1.3.2_linux_amd64.zip
+  # Install the latest version of Packer with ansible
+  - apt-get update && apt-get install -y ansible
+  - ansible-galaxy install git+https://github.com/diodonfrost/ansible-role-packer
+  - ansible-pull -U https://github.com/diodonfrost/ansible-role-packer tests/test.yml
 
 before_script:
   - packer --version
