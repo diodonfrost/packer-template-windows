@@ -1,4 +1,7 @@
-sudo: false
+dist: xenial   # required for Python >= 3.7
+language: python
+python:
+  - "3.7"
 
 env:
   - distribution: windows
@@ -10,11 +13,11 @@ env:
   - distribution: windows
     version: "8.1"
 
-before_install:
+install:
   # Install the latest version of Packer with ansible
-  - apt-get update && apt-get install -y ansible
-  - ansible-galaxy install git+https://github.com/diodonfrost/ansible-role-packer
-  - ansible-pull -U https://github.com/diodonfrost/ansible-role-packer tests/test.yml
+  - sudo pip install ansible
+  - sudo ansible-galaxy install git+https://github.com/diodonfrost/ansible-role-packer
+  - sudo ansible-pull -U https://github.com/diodonfrost/ansible-role-packer tests/test.yml
 
 before_script:
   - packer --version
