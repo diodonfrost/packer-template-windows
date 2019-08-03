@@ -38,7 +38,7 @@ packer build windows-2k12r2/2k12r2.json
 
 My main source of inspiration:
 
-*   [https://github.com/bento](https://github.com/bento)
+*   [https://github.com/chef/bento](https://github.com/chef/bento)
 
 ### License
 
