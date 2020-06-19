@@ -1,55 +1,71 @@
 {
-  "variables": {
-		"guest_additions_mode": "attach",
-		"headless": "true",
-		"iso_checksum": "772700802951b36c8cb26a61c040b9a8dc3816a3",
-		"iso_url": "https://software-download.microsoft.com/download/pr/Windows_Server_2016_Datacenter_EVAL_en-us_14393_refresh.ISO",
-		"template": "windows-2016-standard"
-	},
-
-	"builders": [{
-		"type": "virtualbox-iso",
-		"vboxmanage": [
-			["modifyvm", "{{.Name}}", "--memory", "4096"],
-			["modifyvm", "{{.Name}}", "--vram", "48"],
-			["modifyvm", "{{.Name}}", "--cpus", "2"]
+	"builders": [
+	  {
+		"communicator": "winrm",
+		"floppy_files": [
+		  "windows-2k16/Autounattend.xml"
 		],
 		"guest_additions_mode": "{{ user `guest_additions_mode` }}",
 		"guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
 		"guest_os_type": "Windows2016_64",
 		"headless": "{{ user `headless` }}",
+		"iso_checksum": "sha1:{{ user `iso_checksum` }}",
 		"iso_url": "{{ user `iso_url` }}",
-		"iso_checksum": "{{ user `iso_checksum` }}",
-		"iso_checksum_type": "sha1",
 		"output_directory": "builds/packer-{{user `template`}}-virtualbox",
-		"communicator": "winrm",
-		"winrm_username": "vagrant",
-		"winrm_password": "vagrant",
-		"winrm_timeout": "12h",
 		"shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
 		"shutdown_timeout": "15m",
-		"floppy_files": [
-			"windows-2k16/Autounattend.xml"
-		]
-	}],
-
-  "provisioners": [{
-      "type": "powershell",
-      "elevated_user": "vagrant",
-      "elevated_password": "vagrant",
-      "scripts": [
-        "ansible-scripts-requirements/ConfigureRemotingForAnsible.ps1",
-        "ansible-scripts-requirements/Upgrade-PowerShell.ps1"
-      ]
-    }
-  ],
-
+		"type": "virtualbox-iso",
+		"vboxmanage": [
+		  [
+			"modifyvm",
+			"{{.Name}}",
+			"--memory",
+			"4096"
+		  ],
+		  [
+			"modifyvm",
+			"{{.Name}}",
+			"--vram",
+			"48"
+		  ],
+		  [
+			"modifyvm",
+			"{{.Name}}",
+			"--cpus",
+			"2"
+		  ]
+		],
+		"winrm_password": "vagrant",
+		"winrm_timeout": "12h",
+		"winrm_username": "vagrant"
+	  }
+	],
 	"post-processors": [
-		[{
-			"type": "vagrant",
-			"keep_input_artifact": true,
-			"output": "{{ user `template` }}-{{.Provider}}.box",
-			"vagrantfile_template": "vagrantfile-windows.template"
-		}]
-	]
+	  [
+		{
+		  "keep_input_artifact": true,
+		  "output": "{{ user `template` }}-{{.Provider}}.box",
+		  "type": "vagrant",
+		  "vagrantfile_template": "vagrantfile-windows.template"
+		}
+	  ]
+	],
+	"provisioners": [
+	  {
+		"elevated_password": "vagrant",
+		"elevated_user": "vagrant",
+		"scripts": [
+		  "ansible-scripts-requirements/ConfigureRemotingForAnsible.ps1",
+		  "ansible-scripts-requirements/Upgrade-PowerShell.ps1"
+		],
+		"type": "powershell"
+	  }
+	],
+	"variables": {
+	  "guest_additions_mode": "attach",
+	  "headless": "true",
+	  "iso_checksum": "772700802951b36c8cb26a61c040b9a8dc3816a3",
+	  "iso_url": "https://software-download.microsoft.com/download/pr/Windows_Server_2016_Datacenter_EVAL_en-us_14393_refresh.ISO",
+	  "template": "windows-2016-standard"
+	}
 }
