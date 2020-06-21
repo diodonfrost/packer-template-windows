@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 18 * * sun'
+
+jobs:
+  build:
+    name: Packer ${{ matrix.packer_version }} - Win ${{ matrix.windows_versions }}
+    runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: false
+      matrix:
+        packer_version:
+          - "latest"
+          - "1.6.0"
+        windows_versions:
+          - "2k8r2"
+          - "2k12r2"
+          - "2k16"
+          - "8.1"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Packer
+        run: |
+          python -m pip install wheel ansible
+          sudo ansible-galaxy install diodonfrost.packer && sudo ln -s ~/.ansible/roles/diodonfrost.packer ~/.ansible/roles/ansible-role-packer
+          sudo ansible-pull -U https://github.com/diodonfrost/ansible-role-packer tests/test.yml -e packer_version=${{ matrix.packer_version }}
+
+      - name: Packer validate
+        run: packer validate windows-${{ matrix.windows_versions }}/${{ matrix.windows_versions }}.json
