@@ -1,6 +1,6 @@
 # packer-template-windows
 
-[![Build Status](https://travis-ci.org/diodonfrost/packer-template-windows.svg?branch=master)](https://travis-ci.org/diodonfrost/packer-template-windows)
+[![CI](https://github.com/diodonfrost/packer-template-windows/workflows/CI/badge.svg)](https://github.com/diodonfrost/packer-template-windows/actions)
 
 Packer templates for building windows minimal vagrant baseboxes
 
