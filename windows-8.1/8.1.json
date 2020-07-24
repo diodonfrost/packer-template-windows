@@ -65,7 +65,7 @@
 	],
 	"variables": {
 	  "guest_additions_mode": "attach",
-	  "headless": "false",
+	  "headless": "true",
 	  "iso_checksum": "73321fa912305e5a16096ef62380a91ee1f112da",
 	  "iso_url": "http://download.microsoft.com/download/B/9/9/B999286E-0A47-406D-8B3D-5B5AD7373A4A/9600.16384.WINBLUE_RTM.130821-1623_X64FRE_ENTERPRISE_EVAL_EN-US-IRM_CENA_X64FREE_EN-US_DV5.ISO",
 	  "template": "windows-8.1"
