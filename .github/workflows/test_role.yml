@@ -21,6 +21,7 @@ jobs:
           - "2k12r2"
           - "2k16"
           - "8.1"
+          - "10"
 
     steps:
       - name: Checkout repository
