@@ -53,6 +53,14 @@
 	],
 	"provisioners": [
 	  {
+		"type": "powershell",
+		"inline": [
+		  "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force -Scope LocalMachine",
+		  "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force -Scope CurrentUser",
+		  "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force -Scope Process"
+		]
+	  },
+	  {
 		"elevated_password": "vagrant",
 		"elevated_user": "vagrant",
 		"scripts": [
@@ -61,6 +69,9 @@
 		  "ansible-scripts-requirements/chocolatey-install.ps1"
 		],
 		"type": "powershell"
+	  },
+	  {
+		"type": "windows-restart"
 	  }
 	],
 	"variables": {
