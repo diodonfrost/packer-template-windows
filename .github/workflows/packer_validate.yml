@@ -35,7 +35,7 @@ jobs:
 
       - name: Install Packer
         run: |
-          python -m pip install wheel ansible
+          python -m pip install -r requirements.txt
           sudo ansible-galaxy install diodonfrost.packer && sudo ln -s ~/.ansible/roles/diodonfrost.packer ~/.ansible/roles/ansible-role-packer
           sudo ansible-pull -U https://github.com/diodonfrost/ansible-role-packer tests/test.yml -e packer_version=${{ matrix.packer_version }}
 
