@@ -31,7 +31,17 @@ end
 
 To build an windows 2k12r2 box with virtualbox provider:
 ```shell
-packer build windows-2k12r2/2k12r2.json
+make build-windows-2k12
+```
+
+To build an windows 10 box:
+```shell
+make build-windows-10
+```
+
+To build all windows box
+```shell
+make build-all
 ```
 
 ### Related projects
