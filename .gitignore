@@ -1,8 +1,5 @@
-Gemfile.lock
-.kitchen
-tests/inspec/inspec.lock
-Dockerfile-kitchen*
 packer_cache
 *.box
 builds
 iso
+.venv
