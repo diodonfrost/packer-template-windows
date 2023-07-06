@@ -64,8 +64,8 @@
 		"elevated_password": "vagrant",
 		"elevated_user": "vagrant",
 		"scripts": [
-		  "ansible-scripts-requirements/ConfigureRemotingForAnsible.ps1",
-		  "ansible-scripts-requirements/Upgrade-PowerShell.ps1"
+		  "scripts/ConfigureRemotingForAnsible.ps1",
+		  "scripts/Upgrade-PowerShell.ps1"
 		],
 		"type": "powershell"
 	  },
