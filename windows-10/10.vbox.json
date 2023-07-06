@@ -3,7 +3,7 @@
 	  {
 		"communicator": "winrm",
 		"floppy_files": [
-		  "windows-10/Autounattend.xml"
+		  "windows-10/floppy/vbox/Autounattend.xml"
 		],
 		"format": "ova",
 		"guest_additions_mode": "{{ user `guest_additions_mode` }}",

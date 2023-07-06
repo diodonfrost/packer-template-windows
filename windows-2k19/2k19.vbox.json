@@ -3,7 +3,7 @@
 	  {
 		"communicator": "winrm",
 		"floppy_files": [
-		  "windows-2k19/Autounattend.xml"
+		  "windows-2k19/floppy/vbox/Autounattend.xml"
 		],
 		"guest_additions_mode": "{{ user `guest_additions_mode` }}",
 		"guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
