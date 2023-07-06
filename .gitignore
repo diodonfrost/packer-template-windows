@@ -3,3 +3,4 @@ packer_cache
 builds
 iso
 .venv
+virtio-win.iso
