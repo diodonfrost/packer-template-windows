@@ -1,0 +1,14 @@
+---
+- hosts: all
+  tasks:
+    - name: Install Full Virtios drivers
+      win_chocolatey:
+        name:
+          - virtio-drivers
+          - qemu-guest-agent
+        state: latest
+
+    - name: Install all updates and reboot as many times as needed
+      ansible.windows.win_updates:
+        category_names: '*'
+        reboot: true

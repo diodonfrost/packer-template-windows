@@ -1,0 +1,71 @@
+{
+  "builders": [
+    {
+      "type": "qemu",
+      "accelerator": "kvm",
+      "communicator": "winrm",
+      "cpus": "8",
+      "disk_size": "51200",
+      "floppy_files": [
+        "./windows-10/floppy/qemu/Autounattend.xml",
+        "./scripts/Upgrade-PowerShell.ps1",
+		    "./scripts/chocolatey-install.ps1",
+        "./scripts/ConfigureRemotingForAnsible.ps1",
+        "./scripts/unattend.xml",
+        "./scripts/sysprep.bat"
+      ],
+      "headless": "false",
+      "iso_checksum": "sha1:753568eaf18ce39ad2cfd29083ddb0e32a65ca85",
+      "iso_urls": [
+        "https://software-static.download.prss.microsoft.com/dbazure/988969d5-f34g-4e03-ac9d-1f9786c66750/19045.2006.220908-0225.22h2_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso"
+      ],
+	  "qemuargs":
+	  [
+		  [ "-cdrom", "./virtio-win.iso" ]
+	  ],
+      "memory": "16384",
+      "output_directory": "builds/packer-windows-10-qemu",
+      "shutdown_command": "A:\\sysprep.bat",
+      "shutdown_timeout": "15m",
+      "vm_name": "windows-10-qemu",
+      "winrm_insecure": "true",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "1h",
+      "winrm_use_ssl": "true",
+      "winrm_username": "vagrant",
+      "disk_compression": "true"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "ansible",
+      "playbook_file": "ansible/playbook.yml",
+      "user": "vagrant",
+      "use_proxy": false,
+      "extra_arguments": [
+        "-e",
+        "ansible_password=vagrant",
+        "-e",
+        "ansible_connection=winrm",
+        "-e",
+        "ansible_winrm_transport=basic",
+        "-e",
+        "ansible_winrm_server_cert_validation=ignore",
+        "-e",
+        "ansible_shell_type=powershell",
+        "-e",
+        "ansible_shell_executable=None"
+      ]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "compression_level": 9,
+        "output": "builds/windows-10-qemu.box",
+        "type": "vagrant",
+        "vagrantfile_template": "vagrantfile-windows.template"
+      }
+    ]
+  ]
+}
