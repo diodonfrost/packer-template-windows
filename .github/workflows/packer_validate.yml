@@ -39,5 +39,5 @@ jobs:
           sudo ansible-galaxy install diodonfrost.packer && sudo ln -s ~/.ansible/roles/diodonfrost.packer ~/.ansible/roles/ansible-role-packer
           sudo ansible-pull -U https://github.com/diodonfrost/ansible-role-packer tests/test.yml -e packer_version=${{ matrix.packer_version }}
 
-      - name: Packer validate
-        run: packer validate windows-${{ matrix.windows_versions }}/${{ matrix.windows_versions }}.json
+      - name: Virtualbox | Packer validate
+        run: packer validate windows-${{ matrix.windows_versions }}/${{ matrix.windows_versions }}.vbox.json
