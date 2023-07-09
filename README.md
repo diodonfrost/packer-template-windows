@@ -25,9 +25,16 @@ end
 #### Requirements
 
 -   [Packer](https://www.packer.io/)
--   [VirtualBox](https://www.virtualbox.org)
+-   [VirtualBox](https://www.virtualbox.org) (Virtualbox builder only)
+-   [Qemu](https://www.qemu.org/) (Qemu builder only)
+-   [Virtio iso](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/latest-virtio/virtio-win.iso) (Qemu builder only)
 
 #### Using packer
+
+***Qemu builder only,*** download virtio drivers:
+```shell
+wget https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/latest-virtio/virtio-win.iso
+```
 
 To build an windows 2k12r2 box with virtualbox provider:
 ```shell
