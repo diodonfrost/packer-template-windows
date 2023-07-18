@@ -1,0 +1,67 @@
+{
+  "builders": [
+    {
+  	"type": "qemu",
+  	"accelerator": "kvm",
+  	"communicator": "winrm",
+  	"cpus": "8",
+  	"disk_size": "51200",
+  	"floppy_files": [
+  	  "./windows-2k19/floppy/qemu/Autounattend.xml",
+  	  "./scripts/Upgrade-PowerShell.ps1",
+  	  "./scripts/ConfigureRemotingForAnsible.ps1",
+  	  "./scripts/unattend.xml",
+  	  "./scripts/sysprep.bat"
+  	],
+  	"headless": "false",
+  	"iso_checksum": "sha1:91e3a2f1acc39af21353c7cc105c799494d7539f",
+  	"iso_urls": [
+  	  "https://software-download.microsoft.com/download/sg/17763.253.190108-0006.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us.iso"
+  	],
+  	"qemuargs":
+  	[
+  		[ "-cdrom", "./virtio-win.iso" ]
+  	],
+  	"memory": "16384",
+  	"output_directory": "builds/packer-windows-2k19-qemu",
+  	"shutdown_command": "A:\\sysprep.bat",
+  	"shutdown_timeout": "15m",
+  	"vm_name": "windows-2k19-qemu",
+  	"winrm_insecure": "true",
+  	"winrm_password": "vagrant",
+  	"winrm_timeout": "1h",
+  	"winrm_use_ssl": "true",
+  	"winrm_username": "vagrant"
+    }
+  ],
+  "provisioners": [
+    {
+  	"type": "ansible",
+  	"playbook_file": "ansible/playbook.yml",
+  	"user": "vagrant",
+  	"use_proxy": false,
+  	"extra_arguments": [
+  	  "-e",
+  	  "ansible_password=vagrant",
+  	  "-e",
+  	  "ansible_connection=winrm",
+  	  "-e",
+  	  "ansible_winrm_transport=basic",
+  	  "-e",
+  	  "ansible_winrm_server_cert_validation=ignore",
+  	  "-e",
+  	  "ansible_shell_type=powershell",
+  	  "-e",
+  	  "ansible_shell_executable=None"
+  	]
+    }
+  ],
+  "post-processors": [
+  	{
+  	  "compression_level": 9,
+  	  "output": "builds/windows-2k19-qemu.box",
+  	  "type": "vagrant",
+  	  "vagrantfile_template": "vagrantfile-windows.template"
+  	}
+  ]
+}
