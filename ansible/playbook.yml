@@ -1,14 +1,15 @@
 ---
 - hosts: all
   tasks:
-    - name: Install Full Virtios drivers
-      win_chocolatey:
-        name:
-          - virtio-drivers
-          - qemu-guest-agent
-        state: latest
+    - name: Windows | Install Virtio
+      ansible.windows.win_package:
+        path: 'E:\virtio-win-gt-x64.msi'
+        product_id: BC3373F8-48ED-490D-9431-0D02425BA607
+        state: present
 
-    - name: Install all updates and reboot as many times as needed
-      ansible.windows.win_updates:
-        category_names: '*'
-        reboot: true
+    - name: Windows | Install Qemu Guest Agent and Spice agent
+      ansible.windows.win_package:
+        path: 'E:\virtio-win-guest-tools.exe'
+        product_id: C4F21E04-480B-47BC-B592-4F9B43B124C8
+        arguments: /install /passive /norestart
+        state: present
