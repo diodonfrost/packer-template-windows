@@ -64,8 +64,7 @@
 		"elevated_user": "vagrant",
 		"scripts": [
 		  "scripts/ConfigureRemotingForAnsible.ps1",
-		  "scripts/Upgrade-PowerShell.ps1",
-		  "scripts/chocolatey-install.ps1"
+		  "scripts/Upgrade-PowerShell.ps1"
 		],
 		"type": "powershell"
 	  },
