@@ -46,11 +46,6 @@ To build an windows 10 box:
 make build-windows-10
 ```
 
-To build all windows box
-```shell
-make build-all
-```
-
 ### Related projects
 
 My main source of inspiration:
